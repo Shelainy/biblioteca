@@ -1,0 +1,7 @@
+{
+    "explorer.compactFolders": false,
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "OM Theme (Default Dracula Italic)",
+    "workbench.iconTheme": "material-icon-theme",
+    "python.defaultInterpreterPath": "python"
+}
