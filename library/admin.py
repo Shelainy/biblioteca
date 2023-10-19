@@ -14,7 +14,7 @@ class LivroAdmin(admin.ModelAdmin):
     #adiciona paginação e define o máximo de itens por página
     list_max_show_all = 10
     #define quais colunas podem ser editados sem ter que abrir ele (adiciona input no item)
-    #list_editable = 'editora', 'escritor',
+    list_editable = 'disponivel',
     #define quais colunas receberão links para abrir a página de edição do item
     list_display_links = 'id', 'nome',
 
