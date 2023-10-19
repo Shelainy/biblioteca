@@ -5,5 +5,8 @@ app_name = 'library'
 urlpatterns = [
     path('clientes/<int:cliente_id>/', views.cliente_info, name='cliente_info'),
     path('clientes/', views.cliente, name='cliente'),
+    path('livros/', views.livro, name='livro'),
+    path('lsearch/', views.livro_search, name='lsearch'),
+    path('csearch/', views.cliente_search, name='csearch'),
     path('', views.index, name='index'),
 ]
