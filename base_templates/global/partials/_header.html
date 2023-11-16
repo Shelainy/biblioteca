@@ -1,10 +1,4 @@
 <header class="header">
-    <h1 class="header-heading">
-        <a href="{% url "library:index" %}" class="header-link">
-            Biblioteca
-        </a>
-    </h1>
-
     <nav class="menu">
         
         <ul class="menu-list">
@@ -20,10 +14,9 @@
             </li>
         </ul>
     </nav>
-
+    
     <div class="search">
-        <form action="{% url "library:csearch" %}" method="GET">
-            <input type="search" class="search-input" placeholder="Buscar" id="search" name="q">
-        </form>
+        {% block search %}{% endblock %}
     </div>
+
 </header>

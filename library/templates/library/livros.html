@@ -8,15 +8,8 @@
     <title>{{site_title}}Biblioteca</title>
 </head>
 <body>
-    <header class="header">
-        <h1 class="header-heading">
-            <a href="{% url "library:index" %}" class="header-link">
-                Biblioteca
-            </a>
-        </h1>
-    
+    <header class="header"> 
         <nav class="menu">
-            
             <ul class="menu-list">
                 <li class="menu-item">
                     <a href="{% url "library:livro" %}" class="menu-link">
@@ -33,57 +26,87 @@
     
         <div class="search">
             <form action="{% url "library:lsearch" %}" method="GET">
-                <input type="search" class="search-input" placeholder="Buscar" id="search" name="q">
+                <input type="search" class="search-input" placeholder="Buscar" id="search" name="q", value="{{request.GET.q.strip}}">
             </form>
         </div>
     </header>
 
     <main class="content">
-        <div class="responsive-table">
-            <table class="contacts-table">
-                <caption class="table-caption">Livros</caption>
+        {% if page_obj %}
+            <div class="responsive-table">
+                <table class="contacts-table">
+                    <caption class="table-caption">Livros</caption>
+            
+                    <thead>
+                        <tr class="table-row table-row-header">
+                            <th class="table-header">ID</th>
+                            <th class="table-header">Nome</th>
+                            <th class="table-header">Gênero</th>
+                            <th class="table-header">Escritor</th>
+                            <th class="table-header">Editora</th>
+                            <th class="table-header">Data de publicação</th>
+                            <th class="table-header">Disponível</th>
+                            <th class="table-header">Ação</th>
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                        {% for livro in page_obj %}
+                        <tr class="table-row">
+                            <td class="table-cel">
+                                {{ livro.id }}
+                            </td>
+                            <td class="table-cel">
+                                <a class="table-link" href=#>
+                                    {{ livro.nome }}
+                                </a>
+                            </td>
+                            <td class="table-cel">
+                                {{ livro.genero }}
+                            </td>
+                            <td class="table-cel">
+                                {{ livro.escritor }}
+                            </td>
+                            <td class="table-cel">
+                                {{ livro.editora }}
+                            </td>
+                            <td class="table-cel">
+                                {{ livro.data_pub }}
+                            </td>
+                            <td class="table-cel">
+                                {% if livro.disponivel is True %}
+                                    Sim
+                                {% else %}
+                                    Não
+                                {% endif %}
+                            </td>
+                            <td class="table-cel">
+                                {% if livro.disponivel is True %}
+                                    <button class="btn" type="submit"> <a style="color:white; text-decoration:none;" href="{% url "library:rent_book" livro.id %}">Alugar</a> </button>
+                                {% else %}
+                                    <form action="{% url "library:return_book" livro.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button class="btn" type="submit">Devolver</button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="single-contact">
+                <h1 class="single-contact-name">
+                    Livro não encontrado
+                </h1>
+            </div>
+        {% endif %}
         
-                <thead>
-                    <tr class="table-row table-row-header">
-                        <th class="table-header">Nome</th>
-                        <th class="table-header">Gênero</th>
-                        <th class="table-header">Escritor</th>
-                        <th class="table-header">Editora</th>
-                        <th class="table-header">Data de publicação</th>
-                        <th class="table-header">Disponível</th>
-                    </tr>
-                </thead>
-        
-                <tbody>
-                    {% for livro in livros %}
-                    <tr class="table-row">
-                        <td class="table-cel">
-                            <a class="table-link" href=#>
-                                {{ livro.nome }}
-                            </a>
-                        </td>
-                        <td class="table-cel">
-                            {{ livro.genero }}
-                        </td>
-                        <td class="table-cel">
-                            {{ livro.escritor }}
-                        </td>
-                        <td class="table-cel">
-                            {{ livro.editora }}
-                        </td>
-                        <td class="table-cel">
-                            {{ livro.data_pub }}
-                        </td>
-                        <td class="table-cel">
-                            {% if livro.disponivel is True %}
-                                Sim
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <br><br>
+
+        <button class="btn" style="float:right;" type="submit"> <a style="color:white; text-decoration:none;" href="{% url "library:create_book" %}">Cadastrar novo</a> </button>
+        {% include "global/partials/_pagination.html" %}
     </main>
 </body>
 </html>
