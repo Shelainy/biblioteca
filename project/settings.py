@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'localflavor',
+    # 'localflavor',
     'library',
 ]
 
@@ -131,8 +131,8 @@ STATICFILES_DIRS = (
     BASE_DIR / 'base_static',
 )
 
-STATIC_ROOT = BASE_DIR / 'static'  # collectstatic
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'static'  # collectstatic
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
