@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 # from localflavor.br.forms import BRCPFField
-from pycpfcnpj import cpfcnpj
+# from pycpfcnpj import cpfcnpj
 from . import models
 
 
