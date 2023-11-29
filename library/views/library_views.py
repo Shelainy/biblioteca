@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator
-from library.models import Livro
+from library.models import *
 from library.models import Cliente
+from library.models import Livro
 
 
 # def index(request):
@@ -10,6 +11,10 @@ from library.models import Cliente
 #        request,
 #        'library/index.html',
 #    )
+
+
+def index(request):
+    return redirect('library:livro')
 
 
 def livro(request):
@@ -127,5 +132,54 @@ def cliente_info(request, cliente_id):
     return render(
         request,
         'library/cliente_info.html',
+        context
+    )
+
+
+def aluguel(request):
+    # .filter(disponivel=True): antes do order_by para exibir apenas os livros disponiveis
+    alugueis = Cliente_Livro.objects.all().order_by('id_livro')
+
+    paginator = Paginator(alugueis, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'site_title': "Alugueis - "
+    }
+
+    return render(
+        request,
+        'library/alugueis.html',
+        context
+    )
+
+
+def aluguel_search(request):
+    search_value = request.GET.get('q', '').strip()
+
+    if search_value == '':
+        return redirect('library:aluguel')
+
+    alugueis = Cliente_Livro.objects.all() \
+        .filter(
+            Q(id_livro__icontains=search_value) |
+            Q(id_cliente__icontains=search_value)
+    ) \
+        .order_by('id_livro')
+
+    paginator = Paginator(alugueis, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'site_title': "Alugueis - ",
+    }
+
+    return render(
+        request,
+        'library/alugueis.html',
         context
     )

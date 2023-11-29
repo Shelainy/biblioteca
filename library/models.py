@@ -25,7 +25,7 @@ from django.utils import timezone
 
 
 class Livro(models.Model):
-    nome = models.CharField(max_length=254)
+    nome = models.CharField(max_length=254, unique=True)
     genero = models.CharField(max_length=50, verbose_name="gênero")
     escritor = models.CharField(max_length=100)
     editora = models.CharField(max_length=100)

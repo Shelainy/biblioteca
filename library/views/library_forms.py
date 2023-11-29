@@ -7,10 +7,6 @@ from library.forms import BookForm, ClienteForm, RentForm
 from library.models import Livro, Cliente, Cliente_Livro
 
 
-def index(request):
-    return redirect('library:livro')
-
-
 def create_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
@@ -111,9 +107,11 @@ def rent_book(request, livro_id):
 
 def return_book(request, livro_id):
     if request.method == 'POST':
-        cliente_livro = get_object_or_404(Cliente_Livro, id_livro=livro_id)
-        livro = get_object_or_404(Livro, pk=livro_id)
+        livro = get_object_or_404(Livro, nome=livro_id)
+        cliente_livro = get_object_or_404(
+            Cliente_Livro, id_livro=livro.id)  # type: ignore
+
         cliente_livro.delete()
         livro.disponivel = True
         livro.save()
-        return redirect('library:livro')
+        return redirect('library:aluguel')
